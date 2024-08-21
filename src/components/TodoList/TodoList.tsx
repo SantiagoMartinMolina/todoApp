@@ -2,7 +2,7 @@ import { Text, FlatList, View, Pressable } from "react-native";
 import React from "react";
 import { ToDo } from "../../types/types";
 import { FontAwesome } from "@expo/vector-icons";
-import styles from "./styles";
+import TodoItem from "../TodoItem/TodoItem";
 
 interface Props {
   todos: ToDo[];
@@ -13,16 +13,11 @@ interface Props {
 const TodoList = ({ todos, handleDeleteTask, toggleTaskStatus }: Props) => {
   const renderItem = ({ item }: { item: ToDo }) => {
     return (
-      <View style={[styles.itemContainer, styles.mb]}>
-        <Pressable onPress={() => toggleTaskStatus(item.id)}>
-          <Text style={[styles.taskText, item.isCompleted && styles.completed]}>
-            {item.description}
-          </Text>
-        </Pressable>
-        <Pressable onPress={() => handleDeleteTask(item.id)}>
-          <FontAwesome name="trash" size={24} />
-        </Pressable>
-      </View>
+      <TodoItem
+        onDelete={handleDeleteTask}
+        onToggle={toggleTaskStatus}
+        item={item}
+      />
     );
   };
   return (

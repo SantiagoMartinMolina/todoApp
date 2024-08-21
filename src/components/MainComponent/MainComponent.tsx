@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import React from "react";
 import TodoApp from "../TodoApp/TodoApp";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

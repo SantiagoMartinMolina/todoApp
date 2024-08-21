@@ -6,12 +6,15 @@ import {
   SafeAreaProviderProps,
 } from "react-native-safe-area-context";
 import MainComponent from "./src/components/MainComponent/MainComponent";
+import { PaperProvider } from "react-native-paper";
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <MainComponent />
-      <StatusBar style="auto" />
-    </SafeAreaProvider>
+    <PaperProvider>
+      <SafeAreaProvider>
+        <MainComponent />
+        <StatusBar style="auto" />
+      </SafeAreaProvider>
+    </PaperProvider>
   );
 }
