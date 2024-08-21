@@ -1,29 +1,19 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import * as Crypto from "expo-crypto";
-import { ToDo } from "../../types/types";
 import { Button, TextInput } from "react-native-paper";
 import styles from "./styles";
 
 interface Props {
-  setTodos: React.Dispatch<React.SetStateAction<ToDo[]>>;
+  addTodo: (input: string) => void;
 }
 
-const AddTodoForm = ({ setTodos }: Props) => {
+const AddTodoForm = ({ addTodo }: Props) => {
   const [input, setInput] = useState("");
 
-  const addTodo = () => {
-    if (input.trim()) {
-      const newTask: ToDo = {
-        id: Crypto.randomUUID(),
-        description: input,
-        isCompleted: false,
-      };
-
-      setTodos((previousValue) => [...previousValue, newTask]);
-      setInput("");
-    }
+  const onSubmit = () => {
+    addTodo(input);
+    setInput("");
   };
+
   return (
     <>
       <TextInput
@@ -33,7 +23,7 @@ const AddTodoForm = ({ setTodos }: Props) => {
         onChangeText={setInput}
         style={[styles.mb, styles.input]}
       />
-      <Button style={styles.mb} mode="contained" onPress={addTodo}>
+      <Button style={styles.mb} mode="contained" onPress={onSubmit}>
         Add task
       </Button>
     </>

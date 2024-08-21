@@ -1,12 +1,12 @@
-import { FlatList, Pressable, View, Text, Alert } from "react-native";
+import { FlatList, Pressable, View, Text } from "react-native";
 import { useState } from "react";
 import styles from "./styles";
 import { ToDo } from "../../types/types";
-import { FontAwesome } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import AppHeader from "../AppHeader/AppHeader";
-import { TextInput, Button } from "react-native-paper";
 import AddTodoForm from "../AddTodoForm.ts/AddTodoForm";
+import * as Crypto from "expo-crypto";
+import TodoList from "../TodoList/TodoList";
 
 const TodoApp = () => {
   const [todos, setTodos] = useState<ToDo[]>([]);
@@ -23,19 +23,16 @@ const TodoApp = () => {
     setTodos(updatedTodos);
   };
 
-  const renderItem = ({ item }: { item: ToDo }) => {
-    return (
-      <View style={[styles.itemContainer, styles.mb]}>
-        <Pressable onPress={() => toggleTaskStatus(item.id)}>
-          <Text style={[styles.taskText, item.isCompleted && styles.completed]}>
-            {item.description}
-          </Text>
-        </Pressable>
-        <Pressable onPress={() => handleDeleteTask(item.id)}>
-          <FontAwesome name="trash" size={24} />
-        </Pressable>
-      </View>
-    );
+  const addTodo = (input: string) => {
+    if (input.trim()) {
+      const newTask: ToDo = {
+        id: Crypto.randomUUID(),
+        description: input,
+        isCompleted: false,
+      };
+
+      setTodos((previousValue) => [...previousValue, newTask]);
+    }
   };
 
   return (
@@ -45,11 +42,11 @@ const TodoApp = () => {
     >
       <AppHeader />
       <View style={styles.container}>
-        <AddTodoForm setTodos={setTodos} />
-        <FlatList
-          data={todos}
-          keyExtractor={(todo) => todo.id}
-          renderItem={renderItem}
+        <AddTodoForm addTodo={addTodo} />
+        <TodoList
+          todos={todos}
+          toggleTaskStatus={toggleTaskStatus}
+          handleDeleteTask={handleDeleteTask}
         />
       </View>
     </LinearGradient>
